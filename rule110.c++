@@ -4,7 +4,56 @@
 #include <vector>
 #include <fstream>
 
-std::vector<std::string> simple_func (int ticks, std::string binary_string);
+int on_or_off(int a, int b, int c){
+    
+    if (a==1 && b==1 && c==1){
+        return 0;
+    }else if (a==1 && b==1 && c==0){
+        return 1;
+    }else if (a==1 && b==0 && c==1){
+        return 1;
+    }else if (a==1 && b==0 && c==0){
+        return 0;
+    }else if (a==0 && b==1 && c==1){
+        return 1;
+    }else if (a==0 && b==1 && c==0){
+        return 1;
+    }else if (a==0 && b==0 && c==1){
+        return 1;
+    }else if (a==0 && b==0 && c==0){
+        return 0;
+    }
+
+    return -1;
+}
+
+std::vector<std::string> simple_func (int ticks, std::string binary_string){
+    std::vector<std::string> automatons;
+    const int START = 1;
+    const int END = binary_string.size()-2;
+    for (int i = 0; i < ticks; i++){
+        std::string automaton;
+        for (int j = 0; j < binary_string.size(); j++){
+            automaton+="0";
+        }
+        for (int j = START; j <= END; j++){
+            int a = binary_string[j-1] - '0';
+            int b = binary_string[j] - '0';
+            int c = binary_string[j+1] - '0';
+            int new_val = on_or_off(a, b, c);
+            if (new_val == -1){
+                std::cout<<"Error with the binary string"<<std::endl;
+            }
+            if (new_val == 1){
+                automaton[j] = '1';
+            }
+        }
+        automatons.push_back(automaton);
+        binary_string = automaton;
+    }
+
+    return automatons;
+}
 
 int main(int argc, char* argv[]){
 
@@ -32,8 +81,20 @@ int main(int argc, char* argv[]){
 
     int ticks = std::stoi(content[0]);
     std::string binary_string = "";
-    if (argv[3] == "--simple"){
+    if (option == "--simple"){
         std::string binary_string = content[1];
+        std::vector<std::string> results = simple_func(ticks, binary_string);
+        std::ofstream outfile(outfile_name, std::ios::out);
+        if (outfile.good()){
+            outfile<<"Tick-0="<<binary_string<<"\n";
+            for (int i = 0; i < results.size(); i++){
+                outfile<<"Tick-"<<i+1<<"="<<results[i]<<"\n";
+            }
+            outfile.flush();
+        }else{
+            std::cout<< "Error with the output file" << std::endl;
+        }
+        outfile.close();
     }
 
     return 0;
