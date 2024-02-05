@@ -27,7 +27,7 @@ int on_or_off(int a, int b, int c){
     return -1;
 }
 
-std::vector<std::string> simple_func (int ticks, std::string binary_string){
+std::vector<std::string> gen_itr (int ticks, std::string binary_string){
     std::vector<std::string> automatons;
     const int START = 1;
     const int END = binary_string.size()-2;
@@ -80,21 +80,28 @@ int main(int argc, char* argv[]){
     infile.close();
 
     int ticks = std::stoi(content[0]);
-    std::string binary_string = "";
     if (option == "--simple"){
-        std::string binary_string = content[1];
-        std::vector<std::string> results = simple_func(ticks, binary_string);
         std::ofstream outfile(outfile_name, std::ios::out);
-        if (outfile.good()){
-            outfile<<"Tick-0="<<binary_string<<"\n";
-            for (int i = 0; i < results.size(); i++){
-                outfile<<"Tick-"<<i+1<<"="<<results[i]<<"\n";
+        for (int i = 1; i < content.size(); i++){
+            std::string binary_string = (content[i]);
+            std::vector<std::string> results = gen_itr(ticks, binary_string);
+            if (outfile.good()){
+                outfile<<"String-"<<i<<"\n";
+                outfile<<"Tick-0="<<binary_string<<"\n";
+                for (int i = 0; i < results.size(); i++){
+                    outfile<<"Tick-"<<i+1<<"="<<results[i]<<"\n";
+                }
+                outfile.flush();
+            }else{
+                std::cout<< "Error with the output file" << std::endl;
             }
-            outfile.flush();
-        }else{
-            std::cout<< "Error with the output file" << std::endl;
         }
         outfile.close();
+    }else if (option == "--fancy"){
+        std::vector<std::string> binary_strings;
+        for (int i = 1; i < content.size(); i++){
+            binary_strings.push_back(content[i]);
+        }
     }
 
     return 0;
