@@ -6,7 +6,7 @@ first compile program
 
 --simple just gets binary strings and converts them
 
---fancy tries to visually display them in a more appealing manner, I do have a suspicion that fancy might not work on all machines because of the string that it uses
+--fancy tries to visually display them in a more appealing manner, I do have a suspicion that fancy might not work on all machines because of the string that it uses, if it does not go to line 101 and 102 and change those strings
 
 input text file should have the first line be the # of ticks and all lines below that input lines
 input lines do not need to be the same size
