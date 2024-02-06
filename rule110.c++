@@ -98,10 +98,35 @@ int main(int argc, char* argv[]){
         }
         outfile.close();
     }else if (option == "--fancy"){
-        std::vector<std::string> binary_strings;
+        std::string blank = "□";
+        std::string hit = "■";
+
+        std::ofstream outfile(outfile_name, std::ios::out);
+        std::vector<std::vector<std::string>> results; //a vector which contains vectors of each line and it's iterations
         for (int i = 1; i < content.size(); i++){
-            binary_strings.push_back(content[i]);
+            results.push_back(gen_itr(ticks, content[i]));
         }
+
+        for (int i = 0; i < ticks; i++){
+            if (outfile.good()){
+                outfile<<"Tick-"<<i+1<<"\n";
+                for (int j = 0; j < results.size(); j++){
+                    std::string binary_string = results[j][i];
+                    for (int k = 0; k < binary_string.size(); k++){
+                        if (binary_string[k] == '1'){
+                            outfile<<hit;
+                        }else{
+                            outfile<<blank;
+                        }
+                    }
+                    outfile<<"\n";
+                }
+            }else{
+                std::cout<< "Error with the output file" << std::endl;
+            }
+        }
+        outfile.flush();
+        outfile.close();
     }
 
     return 0;
