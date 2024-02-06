@@ -1,4 +1,4 @@
-https://en.wikipedia.org/wiki/Rule_110#/media/File:One-d-cellular-automaton-rule-110.gif
+[https://en.wikipedia.org/wiki/Rule_110#/media/File:One-d-cellular-automaton-rule-110.gif](https://en.wikipedia.org/wiki/Rule_110)
 
 first compile program
 
